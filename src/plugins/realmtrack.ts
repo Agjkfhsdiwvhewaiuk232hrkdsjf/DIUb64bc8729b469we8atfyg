@@ -7,9 +7,8 @@ import { ResourceManager } from './../core/resource-manager';
 import { PlayerTracker } from './player-tracker';
 import { HelloPacket } from '../networking/packets/outgoing/hello-packet';
 import { IPoint } from '../services/pathfinding/point';
-import { IServer } from './../models/server';
-import Discord = require('discord.js');
 import { IHeapItem } from '../services/pathfinding/heap-item';
+import Discord = require('discord.js');
 
 const fs = require("fs");
 
@@ -36,7 +35,6 @@ interface Portal {
 class RealmTrack {
     private bot: Discord.Client;
     private ready = false;
-
     private playerTracker: PlayerTracker;
     constructor() {
         this.bot = new Discord.Client();
@@ -50,12 +48,12 @@ class RealmTrack {
         });
         process.on('unhandledRejection', (reason, p) => {
             Log('Unhandled Rejection', 'at: ' + p + ' reason: ' + reason);
-        });     
+        });
         PluginManager.afterInit(() => {
             let portalList: Portal[] = new Array();
             this.playerTracker = PluginManager.getInstanceOf(PlayerTracker);
             this.playerTracker.trackAllPlayers();
-            this.playerTracker.on('leave', (player: IPlayerData) => {       
+            this.playerTracker.on('leave', player => {
                 if (config.blacklistedMembers.find((name: any) => name == player.name) != null) return;
                 if (config.blacklistedGuilds.find((name: any) => name == player.guildName) != null) return;
 
@@ -96,11 +94,11 @@ class RealmTrack {
                                     .find((name: any) => name == player.name)), 1);
                             }, 90000);
                         }
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)    
-                        .send(player.name + ' - ' + side + ' Bazaar - ' +  items + ' - ' + shortServer); 
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + side + ' Bazaar - ' + items + shortServer);
                     } else if (trackedPlayer != null) {
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' - ' + side + ' Bazaar' + ' - ' + shortServer);
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + side + ' Bazaar' + shortServer);
                     }
                     items = null;
                     trackedPlayer = null;
@@ -123,8 +121,8 @@ class RealmTrack {
                 }
 
                 if (locName != '' && trackedPlayer != null) {
-                    (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                    .send(player.name + ' - ' + locName + ' - ' + shortServer);
+                    (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                    .send(player.name + ' - ' + locName + shortServer);
                     items = null;
                     trackedPlayer = null;
                 }
@@ -142,7 +140,7 @@ class RealmTrack {
                         && py < portal.y + 2);
                     if (portal != null) {
                         (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
-                        .send(player.name + ' - ' + portal.name + ' - ' + items + ' - ' + shortServer);
+                        .send(player.name + ' - ' + portal.name + ' - ' + items + shortServer);
                         items = null;
                         trackedPlayer = null;
                     }
@@ -153,8 +151,8 @@ class RealmTrack {
                         && py > portal.y - 2
                         && py < portal.y + 2);
                     if (portal != null) {
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' - ' + portal.name + ' - ' + shortServer);
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + portal.name + shortServer);
                         trackedPlayer = null;
                     }
                     portal = null;
@@ -169,8 +167,8 @@ class RealmTrack {
                         && py < +x[1] + 2
                         && shortServer == x[3]);
                     if (realmPos != null) {
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' - ' + realmPos[2] + ' - ' + items + ' - ' + shortServer);
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + realmPos[2] + ' - ' + items + shortServer);
                         realmPos = null;
                         trackedPlayer = null;
                     }
@@ -182,8 +180,8 @@ class RealmTrack {
                         && py < +x[1] + 2
                         && shortServer == x[3]);
                     if (realmPos != null) {
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' (' + Math.round(player.currentFame / 1000 * 10) / 10 + 'k BF)' + ' - ' + realmPos[2] + ' - ' + shortServer);
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' (' + Math.round(player.currentFame / 1000 * 10) / 10 + 'k BF)' + ' - ' + realmPos[2] + shortServer);
                         realmPos = null;
                         trackedPlayer = null;
                     }
@@ -195,8 +193,8 @@ class RealmTrack {
                         && py < +x[1] + 2
                         && shortServer == x[3]);
                     if (realmPos != null) {
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' - ' + realmPos[2] + ' - ' + shortServer);
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + realmPos[2] + shortServer);
                         realmPos = null;
                         trackedPlayer = null;
                     }
@@ -221,8 +219,8 @@ class RealmTrack {
                 let items = this.getItemsOf(player.inventory, [{ num: 583, item: 'Vial of Pure Darkness', event: false },
                                                                      { num: 2991, item: 'Lost Halls Key', event: false }]);
                 if (items != '') {
-                    (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                    .send(player.name + ' - ' + items + ' - ' + this.getSrv(player.server));
+                    (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                    .send(player.name + ' - ' + items + this.getSrv(player.server));
                     items = null;
                     return;
                 }
@@ -231,8 +229,8 @@ class RealmTrack {
                 if (trackedPlayer != null) {
                     let type: String = (trackedPlayer.type == ' ' ?
                         '' : trackedPlayer.type);
-                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel) 
-                        .send(player.name + ' - ' + type + ' - ' + this.getSrv(player.server))
+                        (this.bot.channels.get('472323417421643777') as Discord.TextChannel)
+                        .send(player.name + ' - ' + type + this.getSrv(player.server))
                     type = null;
                 }
                 trackedPlayer = null;
