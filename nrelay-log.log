@@ -1,0 +1,12 @@
+Log Start (time: 1533137798231)
+MESSAGE [17:36:38 | NRelay]           Starting...
+INFO    [17:36:38 | NRelay]           Checking for updates...
+MESSAGE [17:36:39 | NRelay]           An update is available. Downloading...
+INFO    [17:36:39 | Updater]          Downloading latest client.swf
+INFO    [17:36:39 | Updater]          Downloading latest GroundTypes.json
+INFO    [17:36:39 | Updater]          Downloading latest Objects.json
+SUCCESS [17:36:40 | Updater]          Downloaded GroundTypes.json
+SUCCESS [17:36:49 | Updater]          Downloaded Objects.json
+SUCCESS [17:36:51 | Updater]          Downloaded client.swf
+INFO    [17:36:51 | Updater]          Unpacking client.swf
+SUCCESS [17:37:41 | Updater]          Unpacked client.swf
